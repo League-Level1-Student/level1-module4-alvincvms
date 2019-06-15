@@ -63,13 +63,13 @@ public class SimonSays extends KeyAdapter {
 		// 21. Use the speak method to tell the user they were correct
 		speak("correct");
 		// 22. Increment tries by 1
-		tries -= 1;
+		tries ++;
 		}
 		// 25. If tries is greater than 9 (or however many you want)...
-		if(tries > 5) {
+		if(tries > 9) {
 		// 26. Tell the user their score
 		speak("game over");
-		JOptionPane.showMessageDialog(null, "Game Over!    Score:" + score);
+		JOptionPane.showMessageDialog(null, "Game Over  /  Score:" + score);
 		// 27. Exit the program
 		frame.setVisible(false);
 		// 23. Dispose of the frame
