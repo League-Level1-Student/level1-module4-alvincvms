@@ -34,17 +34,17 @@ import javax.swing.JPanel;
 public class Jeopardy implements ActionListener {
 	private JButton firstButton;
 	private JButton secondButton;
-	private JButton thirdButton, fourthButton;
+	private JButton thirdButton, fourthButton, fifthButton;
 	private JPanel quizPanel;
 	private int score = 0;
 	private JLabel scoreBox = new JLabel("0");
 	private int buttonCount = 0;
 	private AudioClip sound;
-
-
+	private boolean b1Pressed,b2Pressed,b3Pressed,b4Pressed,b5Pressed = false;
+    static JFrame frame;
 
 	public void run() {
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		quizPanel = new JPanel();
 		frame.setLayout(new BorderLayout());
@@ -77,7 +77,17 @@ public class Jeopardy implements ActionListener {
 		// 12. Write the code to complete the actionPerformed() method below
 		
 		// 13. Add buttons so that you have $200, $400, $600, $800 and $1000 questions
+		thirdButton = createButton("$600");
+		fourthButton = createButton("$800");
+		fifthButton = createButton("$1000");
 		
+		quizPanel.add(thirdButton);
+		quizPanel.add(fourthButton);
+		quizPanel.add(fifthButton);
+		
+		thirdButton.addActionListener(this);
+		fourthButton.addActionListener(this);
+		fifthButton.addActionListener(this);
 		 /*
 		 * [optional] Use the showImage or playSound methods when the user answers a
 		 * question
@@ -111,24 +121,57 @@ public class Jeopardy implements ActionListener {
 
 		JButton buttonPressed = (JButton) e.getSource();
 		// If the buttonPressed was the firstButton
-		if(buttonPressed == firstButton) {
+		if(buttonPressed == firstButton && b1Pressed == false) {
 			// Call the askQuestion() method
 			askQuestion("This jeopardy is about to test your meme knowledge,are you ready?", "yes", 200);
+			b1Pressed = true;
+			
 		}
 		// Complete the code in the askQuestion() method. When you play the game, the score should change.
 
 		// If the buttonPressed was the secondButton
-
+		if(buttonPressed == secondButton && b2Pressed == false) {
 			// Call the askQuestion() method with a harder question
-
+			askQuestion("Spell the antonym of flat... in a memey way.", "thicc", 400);
+			b2Pressed = true;
+			
+		}
+		if(buttonPressed == thirdButton && b3Pressed == false) {
+			askQuestion("Spell the name of this meme song. (you may need to wait a bit to get this one)", "crab rave", 600);
+			b3Pressed = true;
+			
+		}
+		if(buttonPressed == fourthButton && b4Pressed == false) {
+			askQuestion("Spell the name of this meme song.", "megalovania", 800);
+			b4Pressed = true;
+			
+		}
+		if(buttonPressed == fifthButton && b5Pressed == false) {
+			showImage("meme.jpg");
+			askQuestion("Spell the name of this meme completely and correctly.", "me and my bois", 1000 );
+			b5Pressed = true;
+			
+		}
 		// Clear the text on the button that was pressed (set the button text to nothing)
-
+		
+		buttonPressed.setText(null);
+		if(b1Pressed && b2Pressed && b3Pressed && b4Pressed && b5Pressed) {
+			endgame();
+		}
 	}
 
 	private void askQuestion(String question, String correctAnswer, int prizeMoney) {
 		
 		// Use the playJeopardyTheme() method to play music while the user thinks of an answer
-		playJeopardyTheme();
+		if(prizeMoney == 200 || prizeMoney == 400 || prizeMoney == 100) {
+			play("jeopardy.wav");
+		}
+		else if(prizeMoney == 800) {
+			play("megalovania.wav");
+		}
+		else if(prizeMoney == 600) {
+			play("CrabRave.wav");
+		}
 		// Remove this temporary message and replace it with a pop-up that asks the user the question
 		String response = JOptionPane.showInputDialog(null, question);
 		
@@ -141,20 +184,28 @@ public class Jeopardy implements ActionListener {
 			// Pop up a message to tell the user they were correct
 			JOptionPane.showMessageDialog(null, "Correct!");
 		}
-		else if(prizeMoney == 200 || )
+		else if(prizeMoney == 200 && (response.equalsIgnoreCase("yep") || response.equalsIgnoreCase("yeah") || response.equalsIgnoreCase("hell yeah") || response.equalsIgnoreCase("yea") || response.equalsIgnoreCase("hell yea"))) {
+			score += 200;
+			JOptionPane.showMessageDialog(null, "Correct!");
+		}
+		else if(prizeMoney == 600 && response.equalsIgnoreCase("crabrave")) {
+			score += 600;
+			JOptionPane.showMessageDialog(null, "Correct!");
+		}
 		// Otherwise
-
+		else {
 			// Decrement the score by the prizeMoney
-
+			score -= prizeMoney;
 			// Pop up a message to tell the user they were wrong and give them the correct answer
-
+			JOptionPane.showMessageDialog(null, "Yeet! Correct answer: " + correctAnswer);
+		}
 		// Call the updateScore() method
-
+		updateScore();
 	}
 
-	public void playJeopardyTheme() {
+	public void play(String file) {
 		try {
-			sound = JApplet.newAudioClip(getClass().getResource("jeopardy.wav"));
+			sound = JApplet.newAudioClip(getClass().getResource(file));
 			sound.play();
 			Thread.sleep(3400);
 		} catch (Exception ex) {
@@ -189,7 +240,7 @@ public class Jeopardy implements ActionListener {
 
 	void showIncorrectImage() {
 		showImage("incorrect.jpg");
-	}
+	} 
 
 	private void showImage(String fileName) {
 		JFrame frame = new JFrame();
@@ -199,5 +250,11 @@ public class Jeopardy implements ActionListener {
 		frame.add(image);
 		frame.setVisible(true);
 		frame.pack();
+		wait
+	}
+	void endgame() {
+		JOptionPane.showMessageDialog(null, "Game End! Score:" + score);
+		frame.setVisible(false);
+		frame.dispose();
 	}
 }
