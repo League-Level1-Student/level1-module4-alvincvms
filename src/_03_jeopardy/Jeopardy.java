@@ -250,7 +250,6 @@ public class Jeopardy implements ActionListener {
 		frame.add(image);
 		frame.setVisible(true);
 		frame.pack();
-		wait
 	}
 	void endgame() {
 		JOptionPane.showMessageDialog(null, "Game End! Score:" + score);
