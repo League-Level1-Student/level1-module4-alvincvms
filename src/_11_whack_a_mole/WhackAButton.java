@@ -16,9 +16,12 @@ public class WhackAButton implements ActionListener {
 	int score = 0;
 	JFrame frame = new JFrame("Whack-A-Button");
 	JPanel panel = new JPanel();
-	
+	JButton B = new JButton();
+	Date time = new Date();
+	long x;
 	void run() {
 		
+		time.getTime();
 		frame.add(panel);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,7 +33,20 @@ public class WhackAButton implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+		if(e.getSource().equals(B)) {
+			playSound("Roblox-death-sound.wav");
+			score += 1;
+			if(score == 20) {
+				endGame(time,20);
+				frame.setVisible(false);
+				frame.dispose();
+				
+			}
+		}
+		else {
+			speak("miss");
+		}
+		drawButtons();
 	}
 	void speak(String words) { 
 	    try { 
@@ -57,11 +73,13 @@ public class WhackAButton implements ActionListener {
 			panel.add(J);
 			J.addActionListener(this);
 			if(r == i) {
-				J.setText("Mole!");
+				J.setText("Mole");
+				B = J;
 			}
 		}
 	}
 	
+	
 }
 
-unfinished
+
