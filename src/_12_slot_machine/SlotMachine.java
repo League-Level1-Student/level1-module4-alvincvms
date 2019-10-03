@@ -15,9 +15,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class SlotMachine implements ActionListener {
-	JLabel icon1; JLabel a = loadImage("cherry.png"); JLabel d = loadImage("ace.png");
-	JLabel icon2; JLabel b = loadImage("orange.png"); JLabel e = loadImage("7.png");
-	JLabel icon3; JLabel c = loadImage("grape.png");
+	JLabel icon1; JLabel a;
+	JLabel icon2; JLabel b;
+	JLabel icon3; JLabel c;
 	JPanel panel = new JPanel();
 	JFrame frame = new JFrame("Slot Machine");
 	JButton button = new JButton();
@@ -60,26 +60,24 @@ public class SlotMachine implements ActionListener {
 		
 		frame.pack();
 		
-		if() { unfinished
-			JOptionPane.showMessageDialog( null , "Win!");
-		}
+		
 	}
 	private JLabel randomImage() {
 		int x = new Random().nextInt(31);
 		if(x <= 8) {
-			return a;
+			return loadImage("cherry.png");
 		}
 		else if(x > 8 && x <= 17) {
-			return b;
+			return loadImage("orange.png");
 		}
 		else if(x > 17 && x <= 26) {
-			return c;
+			return loadImage("grape.png");
 		}
 		else if(x > 26 && x <= 29) {
-			return d;
+			return loadImage("ace.png");
 		}
 		else {
-			return e;
+			return loadImage("7.png");
 		}
 	}
 	
